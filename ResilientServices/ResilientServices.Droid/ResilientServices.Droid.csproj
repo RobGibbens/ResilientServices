@@ -53,10 +53,6 @@
     </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
-    <Reference Include="Polly">
-      <HintPath>..\..\packages\Polly.2.1.0\lib\portable-net45+wp80+win\Polly.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core">
