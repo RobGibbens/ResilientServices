@@ -9,18 +9,18 @@ namespace ResilientServices
 {
 	public class Service
 	{
-		public const string TekConfApiUrl = "http://api.tekconf.com/v1";
 		private readonly ITekConfApi _tekconfApi;
-		public Service()
+
+		public Service(ITekConfApi tekconfApi)
 		{
-			_tekconfApi = RestService.For<ITekConfApi>(TekConfApiUrl);
+			_tekconfApi = tekconfApi;
 		}
 
 		public async Task<List<ConferenceDto>> GetConferences()
 		{
 			var conferences = await Policy
 				.Handle<Exception>()
-				.RetryAsync(10)
+				.RetryAsync(5)
 				.ExecuteAsync(async () => await _tekconfApi.GetConferences());
 
 			return conferences;
@@ -30,7 +30,7 @@ namespace ResilientServices
 		{
 			var conference = await Policy
 					.Handle<Exception>()
-					.RetryAsync(10)
+					.RetryAsync(5)
 					.ExecuteAsync(async () => await _tekconfApi.GetConference(slug));
 
 			return conference;

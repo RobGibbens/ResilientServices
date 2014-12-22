@@ -42,9 +42,15 @@
       <HintPath>..\..\packages\akavache.sqlite3.4.0.4\lib\Portable-Net45+Win8+WP8+Wpa81\Akavache.Sqlite3.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Ploeh.AutoFixture">
+      <HintPath>..\..\packages\AutoFixture.3.22.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
     </Reference>
     <Reference Include="PropertyChanged">
       <HintPath>..\..\packages\PropertyChanged.Fody.1.48.8\Lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
