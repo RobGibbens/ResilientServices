@@ -4,6 +4,10 @@
              x:Class="ResilientServices.Pages.MainPage">
 
 	<ListView ItemsSource="{Binding Conferences}">
-		<TextCell Text="{Binding Name}"></TextCell>
+		<ListView.ItemTemplate>
+			<DataTemplate>
+				<TextCell Text="{Binding Name}"></TextCell>
+			</DataTemplate>
+		</ListView.ItemTemplate>
 	</ListView>
 </ContentPage>
