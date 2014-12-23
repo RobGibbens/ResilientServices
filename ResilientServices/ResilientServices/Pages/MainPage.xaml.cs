@@ -1,5 +1,4 @@
-﻿using Refit;
-using ResilientServices.ViewModels;
+﻿using ResilientServices.ViewModels;
 using Xamarin.Forms;
 
 namespace ResilientServices.Pages
@@ -13,8 +12,11 @@ namespace ResilientServices.Pages
 		{
 			InitializeComponent();
 
-			var tekconfApi = RestService.For<ITekConfApi>(TekConfApiUrl);
-			_viewModel = new MainViewModel(tekconfApi);
+			
+			var apiService = new ApiService(TekConfApiUrl);
+			var service = new Service(apiService);
+
+			_viewModel = new MainViewModel(service);
 			
 			this.BindingContext = _viewModel;
 

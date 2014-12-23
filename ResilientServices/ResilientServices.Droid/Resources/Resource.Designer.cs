@@ -26,6 +26,7 @@ namespace ResilientServices.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::ModernHttpClient.Resource.String.library_name = global::ResilientServices.Droid.Resource.String.library_name;
 			global::Splat.Resource.String.library_name = global::ResilientServices.Droid.Resource.String.library_name;
 		}
 		

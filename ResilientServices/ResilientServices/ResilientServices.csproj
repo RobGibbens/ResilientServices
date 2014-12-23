@@ -37,12 +37,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AkavacheSqliteLinkerOverride.cs" />
+    <Compile Include="ApiService.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Dtos\Address.cs" />
     <Compile Include="Dtos\ConferenceDto.cs" />
     <Compile Include="Dtos\SessionDto.cs" />
     <Compile Include="Dtos\SpeakerDto.cs" />
-    <Compile Include="IGitHubApi.cs" />
+    <Compile Include="IApiService.cs" />
+    <Compile Include="ITekConfApi.cs" />
+    <Compile Include="IService.cs" />
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -58,6 +61,12 @@
     <Reference Include="Akavache.Sqlite3">
       <HintPath>..\..\packages\akavache.sqlite3.4.0.4\lib\Portable-Net45+Win8+WP8+Wpa81\Akavache.Sqlite3.dll</HintPath>
     </Reference>
+    <Reference Include="Fusillade">
+      <HintPath>..\..\packages\fusillade.0.6.0\lib\Portable-net45+win+wpa81+wp80\Fusillade.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernHttpClient">
+      <HintPath>..\..\packages\modernhttpclient.2.1.5\lib\Portable-Net45+WinRT45+WP8+WPA81\ModernHttpClient.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.6\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -67,6 +76,9 @@
     <Reference Include="PropertyChanged">
       <HintPath>..\..\packages\PropertyChanged.Fody.1.48.8\Lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Punchclock">
+      <HintPath>..\..\packages\Punchclock.1.2.0\lib\Portable-net45+win+wpa81+wp80\Punchclock.dll</HintPath>
     </Reference>
     <Reference Include="Refit">
       <HintPath>..\..\packages\refit.2.1.0\lib\Portable-Net45+WinRT45+WP8+WPA81\Refit.dll</HintPath>
@@ -109,6 +121,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -21,20 +21,21 @@ namespace Tests.Unit
 		{
 			var fixture = new Fixture();
 
-			var api = new Mock<ITekConfApi>();
+			var tekconfApi = new Mock<ITekConfApi>();
 			var expectedConferences = new List<ConferenceDto>
 			{
 				fixture.Create<ConferenceDto>()
 			};
 
-			api.Setup(x => x.GetConferences()).ReturnsAsync(expectedConferences);
-			
-			var service = new Service(api.Object);
+			tekconfApi.Setup(x => x.GetConferences()).ReturnsAsync(expectedConferences);
+
+			var apiService = new Mock<IApiService>();
+			var service = new Service(apiService.Object);
 			var conferences = await service.GetConferences();
 			conferences.ShouldNotBeNull();
 			conferences.Count().ShouldEqual(1);
 
-			api.Verify(x => x.GetConferences(), Times.Exactly(1));
+			tekconfApi.Verify(x => x.GetConferences(), Times.Exactly(1));
 		}
 
 		[Theory]
@@ -43,7 +44,7 @@ namespace Tests.Unit
 		public async Task GetConference(string slug)
 		{
 			var fixture = new Fixture();
-			var api = new Mock<ITekConfApi>();
+			var tekconfApi = new Mock<ITekConfApi>();
 			var expectedName = fixture.Create<string>();
 			var expectedConference = new ConferenceDto
 			{
@@ -51,13 +52,14 @@ namespace Tests.Unit
 				Name = expectedName
 			};
 
-			api.Setup(x => x.GetConference(slug)).ReturnsAsync(expectedConference);
+			tekconfApi.Setup(x => x.GetConference(slug)).ReturnsAsync(expectedConference);
 
+			var api = new Mock<IApiService>();
 			var service = new Service(api.Object);
 			var conference = await service.GetConference(slug);
 			conference.ShouldNotBeNull();
 			conference.Name.ShouldEqual(expectedName);
-			api.Verify(x => x.GetConference(slug), Times.Exactly(1));
+			tekconfApi.Verify(x => x.GetConference(slug), Times.Exactly(1));
 		}
 	}
 }

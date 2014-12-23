@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ResilientServices.Pages;
-using ResilientServices.ViewModels;
+﻿using ResilientServices.Pages;
 using Xamarin.Forms;
 
 namespace ResilientServices

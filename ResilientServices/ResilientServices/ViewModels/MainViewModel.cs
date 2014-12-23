@@ -11,14 +11,15 @@ namespace ResilientServices.ViewModels
 	[ImplementPropertyChanged]
 	public class MainViewModel
 	{
-		private readonly ITekConfApi _tekconfApi;
+		private readonly IService _service;
 
-		public MainViewModel(ITekConfApi tekconfApi)
+		public MainViewModel(IService service)
 		{
-			_tekconfApi = tekconfApi;
+			_service = service;
 		}
 
 		public List<ConferenceDto> Conferences { get; set; }
+	
 		public async Task GetConferences()
 		{
 			var cache = BlobCache.LocalMachine;
@@ -34,8 +35,8 @@ namespace ResilientServices.ViewModels
 		private async Task<List<ConferenceDto>> GetRemoteConferences()
 		{
 			//this.IsLoading = true;
-			var remoteClient = new Service(_tekconfApi);
-			List<ConferenceDto> conferences = await remoteClient.GetConferences().ConfigureAwait(false);
+
+			List<ConferenceDto> conferences = await _service.GetConferences().ConfigureAwait(false);
 			//await _db.SaveAll (conferences).ConfigureAwait (false);
 
 			//this.IsLoading = false;

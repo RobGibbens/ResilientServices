@@ -2,26 +2,25 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Polly;
-using Refit;
 using TekConf.Mobile.Core.Dtos;
 
 namespace ResilientServices
 {
-	public class Service
+	public class Service : IService
 	{
-		private readonly ITekConfApi _tekconfApi;
+		private readonly IApiService _apiService;
 
-		public Service(ITekConfApi tekconfApi)
+		public Service(IApiService apiService)
 		{
-			_tekconfApi = tekconfApi;
+			_apiService = apiService;
 		}
 
 		public async Task<List<ConferenceDto>> GetConferences()
 		{
 			var conferences = await Policy
 				.Handle<Exception>()
-				.RetryAsync(5)
-				.ExecuteAsync(async () => await _tekconfApi.GetConferences());
+				.RetryAsync(1)
+				.ExecuteAsync(async () => await _apiService.UserInitiated.GetConferences());
 
 			return conferences;
 		}
@@ -31,7 +30,7 @@ namespace ResilientServices
 			var conference = await Policy
 					.Handle<Exception>()
 					.RetryAsync(5)
-					.ExecuteAsync(async () => await _tekconfApi.GetConference(slug));
+					.ExecuteAsync(async () => await _apiService.UserInitiated.GetConference(slug));
 
 			return conference;
 		}
