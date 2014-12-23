@@ -45,13 +45,13 @@
     <Compile Include="Dtos\SpeakerDto.cs" />
     <Compile Include="IApiService.cs" />
     <Compile Include="ITekConfApi.cs" />
-    <Compile Include="IService.cs" />
+    <Compile Include="IConferencesService.cs" />
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefitStubs.cs" />
-    <Compile Include="Service.cs" />
+    <Compile Include="ConferencesService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

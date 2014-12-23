@@ -4,7 +4,7 @@ using TekConf.Mobile.Core.Dtos;
 
 namespace ResilientServices
 {
-	public interface IService
+	public interface IConferencesService
 	{
 		Task<List<ConferenceDto>> GetConferences();
 		Task<ConferenceDto> GetConference(string slug);

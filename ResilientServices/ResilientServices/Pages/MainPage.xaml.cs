@@ -14,7 +14,7 @@ namespace ResilientServices.Pages
 
 			
 			var apiService = new ApiService(TekConfApiUrl);
-			var service = new Service(apiService);
+			var service = new ConferencesService(apiService);
 
 			_viewModel = new MainViewModel(service);
 			

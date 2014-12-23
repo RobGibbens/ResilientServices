@@ -11,37 +11,25 @@ namespace ResilientServices.ViewModels
 	[ImplementPropertyChanged]
 	public class MainViewModel
 	{
-		private readonly IService _service;
+		private readonly IConferencesService _conferencesService;
 
-		public MainViewModel(IService service)
+		public MainViewModel(IConferencesService conferencesService)
 		{
-			_service = service;
+			_conferencesService = conferencesService;
 		}
 
 		public List<ConferenceDto> Conferences { get; set; }
-	
-		public async Task GetConferences()
-		{
-			var cache = BlobCache.LocalMachine;
-			var conferences = cache.GetAndFetchLatest("conferences", GetRemoteConferences, offset =>
-			{
-				TimeSpan elapsed = DateTimeOffset.Now - offset;
-				return elapsed > new TimeSpan(hours: 0, minutes: 0, seconds: 10);
-			});
+        public bool IsLoading { get; set; }
 
-			Conferences = await conferences.FirstOrDefaultAsync();
-		}
+	    public async Task GetConferences()
+	    {
+	        this.IsLoading = true;
 
-		private async Task<List<ConferenceDto>> GetRemoteConferences()
-		{
-			//this.IsLoading = true;
+	        List<ConferenceDto> conferences = await _conferencesService.GetConferences().ConfigureAwait(false);
+	       
+	        this.IsLoading = false;
 
-			List<ConferenceDto> conferences = await _service.GetConferences().ConfigureAwait(false);
-			//await _db.SaveAll (conferences).ConfigureAwait (false);
-
-			//this.IsLoading = false;
-
-			return conferences;
-		}
+	        this.Conferences = conferences;
+	    }
 	}
 }

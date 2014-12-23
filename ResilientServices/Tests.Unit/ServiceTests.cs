@@ -30,7 +30,7 @@ namespace Tests.Unit
 			tekconfApi.Setup(x => x.GetConferences()).ReturnsAsync(expectedConferences);
 
 			var apiService = new Mock<IApiService>();
-			var service = new Service(apiService.Object);
+			var service = new ConferencesService(apiService.Object);
 			var conferences = await service.GetConferences();
 			conferences.ShouldNotBeNull();
 			conferences.Count().ShouldEqual(1);
@@ -55,7 +55,7 @@ namespace Tests.Unit
 			tekconfApi.Setup(x => x.GetConference(slug)).ReturnsAsync(expectedConference);
 
 			var api = new Mock<IApiService>();
-			var service = new Service(api.Object);
+			var service = new ConferencesService(api.Object);
 			var conference = await service.GetConference(slug);
 			conference.ShouldNotBeNull();
 			conference.Name.ShouldEqual(expectedName);
