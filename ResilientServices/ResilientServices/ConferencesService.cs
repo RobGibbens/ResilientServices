@@ -11,6 +11,7 @@ namespace ResilientServices
 	public class ConferencesService : IConferencesService
 	{
 		private readonly IApiService _apiService;
+	    private const int MAX_RETRIES = 10;
 
 		public ConferencesService(IApiService apiService)
 		{
@@ -31,21 +32,37 @@ namespace ResilientServices
 		    return conferences;
 		}
 
+        public async Task<ConferenceDto> GetConference(string slug)
+        {
+            var cache = BlobCache.LocalMachine;
+            var cachedConference = cache.GetAndFetchLatest(slug, () => GetRemoteConference(slug), offset =>
+            {
+                TimeSpan elapsed = DateTimeOffset.Now - offset;
+                return elapsed > new TimeSpan(hours: 0, minutes: 10, seconds: 0);
+            });
+
+            var conference = await cachedConference.FirstOrDefaultAsync();
+
+            return conference;
+
+        }
+
+
 	    private async Task<List<ConferenceDto>> GetRemoteConferences()
 	    {
             var conferences = await Policy
                 .Handle<Exception>()
-                .RetryAsync(1)
+                .RetryAsync(MAX_RETRIES)
                 .ExecuteAsync(async () => await _apiService.UserInitiated.GetConferences());
 
             return conferences;
 	    }
 
-		public async Task<ConferenceDto> GetConference(string slug)
+		public async Task<ConferenceDto> GetRemoteConference(string slug)
 		{
 			var conference = await Policy
 					.Handle<Exception>()
-					.RetryAsync(5)
+                    .RetryAsync(MAX_RETRIES)
 					.ExecuteAsync(async () => await _apiService.UserInitiated.GetConference(slug));
 
 			return conference;
