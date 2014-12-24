@@ -20,15 +20,27 @@ namespace ResilientServices
 
         public async Task<List<ConferenceDto>> GetConferences()
         {
-            var cachedConferences = BlobCache.LocalMachine.GetAndFetchLatest("conferences", GetRemoteConferences, offset =>
+            try
             {
-                TimeSpan elapsed = DateTimeOffset.Now - offset;
-                return elapsed > new TimeSpan(hours: 0, minutes: 10, seconds: 0);
-            });
 
-            var conferences = await cachedConferences.FirstOrDefaultAsync();
+                var cache = BlobCache.LocalMachine;
+                var cachedConferences = cache.GetAndFetchLatest("conferences", GetRemoteConferences,
+                    offset =>
+                    {
+                        TimeSpan elapsed = DateTimeOffset.Now - offset;
+                        return elapsed > new TimeSpan(hours: 0, minutes: 0, seconds: 0);
+                    });
 
-            return conferences;
+                var conferences = await cachedConferences.FirstOrDefaultAsync();
+                return conferences;
+
+            }
+            catch (Exception e)
+            {
+                var sss = e.Message;
+            }
+
+            return null;
         }
 
         public async Task<ConferenceDto> GetConference(string slug)
@@ -36,7 +48,7 @@ namespace ResilientServices
             var cachedConference = BlobCache.LocalMachine.GetAndFetchLatest(slug, () => GetRemoteConference(slug), offset =>
             {
                 TimeSpan elapsed = DateTimeOffset.Now - offset;
-                return elapsed > new TimeSpan(hours: 0, minutes: 10, seconds: 0);
+                return elapsed > new TimeSpan(hours: 0, minutes: 0, seconds: 0);
             });
 
             var conference = await cachedConference.FirstOrDefaultAsync();
