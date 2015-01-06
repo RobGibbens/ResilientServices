@@ -25,7 +25,7 @@ namespace ResilientServices.ViewModels
 	    {
 	        this.IsLoading = true;
 
-	        List<ConferenceDto> conferences = await _conferencesService.GetConferences().ConfigureAwait(false);
+	        var conferences = await _conferencesService.GetConferences().ConfigureAwait(false);
 	       
 	        this.IsLoading = false;
 

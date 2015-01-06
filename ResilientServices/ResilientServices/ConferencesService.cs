@@ -20,27 +20,16 @@ namespace ResilientServices
 
         public async Task<List<ConferenceDto>> GetConferences()
         {
-            try
-            {
+            var cache = BlobCache.LocalMachine;
+            var cachedConferences = cache.GetAndFetchLatest("conferences", GetRemoteConferences,
+                offset =>
+                {
+                    TimeSpan elapsed = DateTimeOffset.Now - offset;
+                    return elapsed > new TimeSpan(hours: 24, minutes: 0, seconds: 0);
+                });
 
-                var cache = BlobCache.LocalMachine;
-                var cachedConferences = cache.GetAndFetchLatest("conferences", GetRemoteConferences,
-                    offset =>
-                    {
-                        TimeSpan elapsed = DateTimeOffset.Now - offset;
-                        return elapsed > new TimeSpan(hours: 0, minutes: 0, seconds: 0);
-                    });
-
-                var conferences = await cachedConferences.FirstOrDefaultAsync();
-                return conferences;
-
-            }
-            catch (Exception e)
-            {
-                var sss = e.Message;
-            }
-
-            return null;
+            var conferences = await cachedConferences.FirstOrDefaultAsync();
+            return conferences;
         }
 
         public async Task<ConferenceDto> GetConference(string slug)
@@ -60,6 +49,7 @@ namespace ResilientServices
         private async Task<List<ConferenceDto>> GetRemoteConferences()
         {
             List<ConferenceDto> conferences = null;
+            //conferences = await _apiService.UserInitiated.GetConferences();
             if (CrossConnectivity.Current.IsConnected)
             {
                 conferences = await Policy

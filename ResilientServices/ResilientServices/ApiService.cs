@@ -6,7 +6,7 @@ using Refit;
 
 namespace ResilientServices
 {
-	public class ApiService : IApiService
+    public class ApiService : IApiService
 	{
 		public const string ApiBaseAddress = "http://api.tekconf.com/v1";
 
