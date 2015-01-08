@@ -8,9 +8,9 @@ open BuildHelpers
 open Fake.XamarinHelper
 
 Target "core-build" (fun () ->
-    RestorePackages "ResilientServices.sln"
+    RestorePackages "ResilientServices.Core.sln"
 
-    MSBuild "ResilientServices/ResilientServices/bin/Debug" "Build" [ ("Configuration", "Debug"); ("Platform", "Any CPU") ] [ "ResilientServices.sln" ] |> ignore
+    MSBuild "ResilientServices/ResilientServices/bin/Debug" "Build" [ ("Configuration", "Debug"); ("Platform", "Any CPU") ] [ "ResilientServices.Core.sln" ] |> ignore
 )
 
 Target "core-tests" (fun () -> 
