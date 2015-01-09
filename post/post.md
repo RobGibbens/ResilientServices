@@ -1,10 +1,10 @@
 > Sample code is available at [my Github repo](https://github.com/RobGibbens/ResilientServices)
 
-For most of our computing history, our machines and our applications have sat on a desk and never moved. We could count on a constant supply of power, resources, and network access. Developers didn't tend to spend a lot of time planning for interruptions or failures with those resources. It was even common to have applications that worked completely locally, and never had to think about the network.
+For most of our computing history, our machines and our applications sat on a desk and never moved. We could count on a constant supply of power, resources, and network access. Developers didn't spend a lot of time planning for interruptions or failures with those resources. It was even common to have applications that worked completely locally, where we never had to think about the network.
 
 ###We live in a mobile world###
 
-We take our devices with us everywhere. We have them at home, at work, on vacation. They are with us when we have gigabit wifi, and when we are on 4g cell connections. They need to work when we are traveling through tunnels, on trains, in cars, flying at 30,000 feet, and when we have no network connection at all. As developers, we have to not only expect these requirements, we need to plan for them in the initial design and architecture of our mobile apps.
+We take our devices with us everywhere. We have them at home, at work, and on vacation. They are with us whether we have gigabit wifi or when we are on 4g cell connections. They need to work when we are traveling through tunnels, on trains, in cars, flying at 30,000 feet, and when we have no network connection at all. As developers, we have to not only expect these requirements, we need to plan for them in the initial design and architecture of our mobile apps.
 
 ###Current approach###
 
@@ -82,7 +82,7 @@ Secondary goals include:
 
 - Fast development time
 - Easy maintenence
-- Reuse existing libraries. Don't reinvent the wheel
+- Reuse existing libraries
 
 Let's address those goals one at a time, and see how we can improve the state of our networked app. As usual, I'll be using a conference app based on [TekConf](http://tekconf.com).
 
@@ -92,9 +92,9 @@ Let's address those goals one at a time, and see how we can improve the state of
 ####Refit####
 > Install-Package Refit
 
-The first thing that we're going to need is a way to access our services. We **could** use HttpClient + Json.net like we did in the previous example. We can make this simpler though. Again, a secondary goal is to reuse existing libraries.  The first one that we're going to pull in is [Refit](https://github.com/paulcbetts/refit). Refit allows us to define an interface that describes the API that we're calling, and the Refit framework handles make the call to the service and deserializing the return.
+The first thing that we're going to need is a way to access our services. We **could** use HttpClient + Json.net as we did in the previous example. We can make this simpler though. Again, a secondary goal is to reuse existing libraries.  The first one that we're going to pull in is [Refit](https://github.com/paulcbetts/refit). Refit allows us to define an interface that describes the API that we're calling, and the Refit framework handles making the call to the service and deserializing the return.
 
-In our case, the interface will look like this
+In our case, the interface will look like this:
 
 ```language-csharp
 [Headers("Accept: application/json")]
@@ -110,7 +110,7 @@ public interface ITekConfApi
 
 Here we are declaring that our remote api will return json, and there are two "methods" (resources) that we can call. The first method is an HTTP GET call to the /conferences endpoint. The second method is also an HTTP GET, and it passes an argument as part of the url to get a single conference.
 
-Once we have the interface defined, using it is as easy as this
+Once we have the interface defined, using it is as easy as this:
 
 ```language-csharp
 var tekconfApi = RestService.For<ITekConfApi>("http://api.tekconf.com/v1");
@@ -239,7 +239,7 @@ var conferences = await _conferencesService
                         .ConfigureAwait(false);
 ```
 
-If the user choose to click the refresh button, then we could run this same call with a different priority.
+If the user chooses to click the refresh button, then we could run this same call with a different priority.
 
 ```language-csharp
 var conferences = await _conferencesService
@@ -258,7 +258,7 @@ foreach (var slug in conferences.Select(x => x.Slug))
 
 ###Work offline##
 
-Unlike desktop applications, our mobile apps are expected to have some functionality while disconnected from the network. The worst thing that we could do would be to crash when we try to make a network request. The best thing that we could do would be to continue working so that the user didn't even notice that the network was down.
+Unlike desktop applications, our mobile apps are expected to have some functionality while disconnected from the network. The worst thing that we could do is to crash when we try to make a network request. The best thing that we could do is to continue working so that the user didn't even notice that the network was down.
 
 ####Connectivity####
 > Install-Package Xam.Plugin.Connectivity
@@ -319,6 +319,8 @@ Adding [AsyncErrorHandler](https://github.com/Fody/AsyncErrorHandler) allows us 
 
 We could go even further in architecting our code to handle our network requests. We would want to register each call as a [BackgroundTask](https://developer.xamarin.com/guides/ios/application_fundamentals/backgrounding/part_3_ios_backgrounding_techniques/ios_backgrounding_with_tasks/) in iOS, or as a [Service](http://developer.xamarin.com/guides/android/application_fundamentals/services/) in Android to give each request the opportunity to complete even when the app gets sent to the background. We could introduce a queue, or some data syncronization component to allow us to update data while offline and sync with the server when a connection is reestablished. How far you want to go is up to you.
 
+Fundamentally, mobile development introduces some issues that we haven't needed to really worry about in desktop development before. A mobile app that doesn't use remote services is an island with limited usefulness.  A mobile app that uses remote services, but crashes when trying to access those services is useless.  By using some really great libraries, we can ensure that our apps give our users the very best experience.
+
 ###Thanks###
 
 In order to get any of this to work, I leveraged the hard work of other developers. Standing on the shoulders of giants.
@@ -326,7 +328,6 @@ In order to get any of this to work, I leveraged the hard work of other develope
 Thanks to [James Montemagno](https://twitter.com/jamesmontemagno) ([Blog](http://motzcod.es/), [Github](https://github.com/jamesmontemagno)) for the [Connectivity](https://github.com/jamesmontemagno/Xamarin.Plugins/tree/master/Connectivity) Plugin.
 
 Many, many thanks to [Paul Betts](https://twitter.com/paulcbetts) ([Blog](http://log.paulbetts.org/), [Github](https://github.com/paulcbetts)) for his tremendous contributions to the Xamarin open source community, including [Refit](https://github.com/paulcbetts/refit), [Akavache](https://github.com/akavache/Akavache), [Fusillade](https://github.com/paulcbetts/Fusillade), and [ModernHttpClient](https://github.com/paulcbetts/ModernHttpClient).
-
 
 ###Source Code###
 

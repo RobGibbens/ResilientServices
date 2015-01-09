@@ -1,2 +1,1 @@
-ResilientServices
-=================
+See [blog post](http://arteksoftware.com/resilient-networks-calls-from-xamarin-apps)
