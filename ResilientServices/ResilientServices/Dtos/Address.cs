@@ -1,9 +1,6 @@
 namespace TekConf.Mobile.Core.Dtos
 {
-	using System;
-	using System.Collections.Generic;
-
-	public class Address
+    public class Address
 	{
 		public int StreetNumber { get; set; }
 		public string StreetName { get; set; }

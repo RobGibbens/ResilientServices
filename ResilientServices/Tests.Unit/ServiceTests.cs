@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Fusillade;
 using Moq;
 using Ploeh.AutoFixture;
 using Refit;
 using ResilientServices;
+using ResilientServices.Services;
 using Should;
 using TekConf.Mobile.Core.Dtos;
 using Xunit;
@@ -31,7 +33,7 @@ namespace Tests.Unit
 
 			var apiService = new Mock<IApiService>();
 			var service = new ConferencesService(apiService.Object);
-			var conferences = await service.GetConferences();
+			var conferences = await service.GetConferences(Priority.UserInitiated);
 			conferences.ShouldNotBeNull();
 			conferences.Count().ShouldEqual(1);
 
@@ -56,7 +58,7 @@ namespace Tests.Unit
 
 			var api = new Mock<IApiService>();
 			var service = new ConferencesService(api.Object);
-			var conference = await service.GetConference(slug);
+			var conference = await service.GetConference(Priority.UserInitiated, slug);
 			conference.ShouldNotBeNull();
 			conference.Name.ShouldEqual(expectedName);
 			tekconfApi.Verify(x => x.GetConference(slug), Times.Exactly(1));

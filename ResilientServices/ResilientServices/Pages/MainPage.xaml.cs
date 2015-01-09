@@ -1,4 +1,5 @@
-﻿using ResilientServices.ViewModels;
+﻿using ResilientServices.Services;
+using ResilientServices.ViewModels;
 using Xamarin.Forms;
 
 namespace ResilientServices.Pages
@@ -12,7 +13,6 @@ namespace ResilientServices.Pages
 		{
 			InitializeComponent();
 
-			
 			var apiService = new ApiService(TekConfApiUrl);
 			var service = new ConferencesService(apiService);
 

@@ -1,4 +1,4 @@
-namespace ResilientServices
+namespace ResilientServices.Services
 {
 	public interface IApiService
 	{

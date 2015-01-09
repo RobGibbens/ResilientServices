@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResilientServices", "ResilientServices\ResilientServices\ResilientServices.csproj", "{8DE4B43F-A1DA-458D-9942-4DD80037384A}"
 EndProject
@@ -141,7 +141,6 @@ Global
 		{DBFB46DD-B79A-41C7-888C-C29BCC8C815A}.AppStore|Mixed Platforms.Build.0 = AppStore|iPhone
 		{DBFB46DD-B79A-41C7-888C-C29BCC8C815A}.AppStore|x86.ActiveCfg = AppStore|iPhone
 		{DBFB46DD-B79A-41C7-888C-C29BCC8C815A}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
-		{DBFB46DD-B79A-41C7-888C-C29BCC8C815A}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
 		{DBFB46DD-B79A-41C7-888C-C29BCC8C815A}.Debug|ARM.ActiveCfg = Debug|iPhone
 		{DBFB46DD-B79A-41C7-888C-C29BCC8C815A}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{DBFB46DD-B79A-41C7-888C-C29BCC8C815A}.Debug|iPhone.Build.0 = Debug|iPhone

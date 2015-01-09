@@ -36,5 +36,4 @@
 
 		public List<SessionDto> Sessions { get; set; }
 	}
-
 }

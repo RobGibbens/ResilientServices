@@ -1,7 +1,5 @@
 namespace TekConf.Mobile.Core.Dtos
 {
-	using System;
-
 	public class SpeakerDto
 	{
 		public string Slug { get; set; }
@@ -27,5 +25,4 @@ namespace TekConf.Mobile.Core.Dtos
 		public string BitbucketUrl { get; set; }
 		public string CodeplexUrl { get; set; }
 	}
-	
 }

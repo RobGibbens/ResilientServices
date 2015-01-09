@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reactive.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Akavache;
+using Fusillade;
 using PropertyChanged;
+using ResilientServices.Services;
 using TekConf.Mobile.Core.Dtos;
 
 namespace ResilientServices.ViewModels
@@ -25,11 +25,23 @@ namespace ResilientServices.ViewModels
 	    {
 	        this.IsLoading = true;
 
-	        var conferences = await _conferencesService.GetConferences().ConfigureAwait(false);
-	       
-	        this.IsLoading = false;
+	        var conferences = await _conferencesService
+                                            .GetConferences(Priority.Background)
+                                            .ConfigureAwait(false);
+
+	        CacheConferences(conferences);
+
+            this.IsLoading = false;
 
 	        this.Conferences = conferences;
+	    }
+
+	    private void CacheConferences(List<ConferenceDto> conferences)
+	    {
+	        foreach (var slug in conferences.Select(x => x.Slug))
+	        {
+	            _conferencesService.GetConference(Priority.Speculative, slug);
+	        }
 	    }
 	}
 }

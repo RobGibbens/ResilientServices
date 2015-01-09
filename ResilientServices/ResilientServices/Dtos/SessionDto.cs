@@ -1,10 +1,9 @@
-using System.Collections.Generic;
-
 namespace TekConf.Mobile.Core.Dtos
 {
 	using System;
+    using System.Collections.Generic;
 
-	public class SessionDto
+    public class SessionDto
 	{
 		public string Slug { get; set; }
 
