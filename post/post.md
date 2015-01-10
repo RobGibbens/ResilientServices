@@ -288,11 +288,18 @@ In a perfect world, our code would work correctly all the time, every time. It's
 ####Polly####
 > Install-Package Polly -Version 2.2.0
 
+<i><small>As of now, the async support in Polly is not available in the PCL assembly. There is a Pull Request pending, but for now you can build it from [my fork](https://github.com/RobGibbens/Polly).</small></i>
+
 [Polly](https://github.com/michael-wolfenden/Polly) is one of the most useful libraries I've used in a while. From the website:
 
 > Polly is a .NET 3.5 / 4.0 / 4.5 / PCL library that allows developers to express transient exception handling policies such as Retry, Retry Forever, Wait and Retry or Circuit Breaker in a fluent manner.
 
+
+
 Polly allows us to very easily handle these types of errors in a consistent and coherent fashion. In this example, we will try connecting to our service five times, with an exponential wait of 2, 4, 8, 16, and 32 seconds between tries. This should give the device a chance to reestablish its network connection and continue the request to the api.
+
+
+
 
 ```language-csharp
 conferences = await Policy
@@ -329,6 +336,8 @@ Thanks to [James Montemagno](https://twitter.com/jamesmontemagno) ([Blog](http:/
 
 Many, many thanks to [Paul Betts](https://twitter.com/paulcbetts) ([Blog](http://log.paulbetts.org/), [Github](https://github.com/paulcbetts)) for his tremendous contributions to the Xamarin open source community, including [Refit](https://github.com/paulcbetts/refit), [Akavache](https://github.com/akavache/Akavache), [Fusillade](https://github.com/paulcbetts/Fusillade), and [ModernHttpClient](https://github.com/paulcbetts/ModernHttpClient).
 
+
 ###Source Code###
 
 You can find a complete sample on [my Github repo](https://github.com/RobGibbens/ResilientServices).
+
