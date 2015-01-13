@@ -294,12 +294,7 @@ In a perfect world, our code would work correctly all the time, every time. It's
 
 > Polly is a .NET 3.5 / 4.0 / 4.5 / PCL library that allows developers to express transient exception handling policies such as Retry, Retry Forever, Wait and Retry or Circuit Breaker in a fluent manner.
 
-
-
 Polly allows us to very easily handle these types of errors in a consistent and coherent fashion. In this example, we will try connecting to our service five times, with an exponential wait of 2, 4, 8, 16, and 32 seconds between tries. This should give the device a chance to reestablish its network connection and continue the request to the api.
-
-
-
 
 ```language-csharp
 conferences = await Policy
@@ -333,6 +328,10 @@ Fundamentally, mobile development introduces some issues that we haven't needed 
 In order to get any of this to work, I leveraged the hard work of other developers. Standing on the shoulders of giants.
 
 Thanks to [James Montemagno](https://twitter.com/jamesmontemagno) ([Blog](http://motzcod.es/), [Github](https://github.com/jamesmontemagno)) for the [Connectivity](https://github.com/jamesmontemagno/Xamarin.Plugins/tree/master/Connectivity) Plugin.
+
+Thanks to Michael Wolfenden ([Github](https://github.com/michael-wolfenden/)) for the amazing [Polly](https://github.com/michael-wolfenden/Polly) framework.
+
+Thanks to [Simon Cropp](https://twitter.com/SimonCropp) ([Github](https://github.com/SimonCropp)) for [Fody](https://github.com/Fody/) and the [AsyncErrorHandler](https://github.com/Fody/AsyncErrorHandler)
 
 Many, many thanks to [Paul Betts](https://twitter.com/paulcbetts) ([Blog](http://log.paulbetts.org/), [Github](https://github.com/paulcbetts)) for his tremendous contributions to the Xamarin open source community, including [Refit](https://github.com/paulcbetts/refit), [Akavache](https://github.com/akavache/Akavache), [Fusillade](https://github.com/paulcbetts/Fusillade), and [ModernHttpClient](https://github.com/paulcbetts/ModernHttpClient).
 
