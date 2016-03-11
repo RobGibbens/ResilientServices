@@ -1,1 +1,1 @@
-See [blog post](http://arteksoftware.com/resilient-networks-calls-from-xamarin-apps)
+See [blog post](http://arteksoftware.com/resilient-network-services-with-xamarin/)
