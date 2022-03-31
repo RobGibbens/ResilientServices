@@ -92,7 +92,7 @@ Let's address those goals one at a time, and see how we can improve the state of
 #### Refit ####
 > Install-Package Refit
 
-The first thing that we're going to need is a way to access our services. We **could** use HttpClient + Json.net as we did in the previous example. We can make this simpler though. Again, a secondary goal is to reuse existing libraries.  The first one that we're going to pull in is [Refit](https://github.com/paulcbetts/refit). Refit allows us to define an interface that describes the API that we're calling, and the Refit framework handles making the call to the service and deserializing the return.
+The first thing that we're going to need is a way to access our services. We **could** use HttpClient + Json.net as we did in the previous example. We can make this simpler though. Again, a secondary goal is to reuse existing libraries.  The first one that we're going to pull in is [Refit](https://github.com/anaisbetts/refit). Refit allows us to define an interface that describes the API that we're calling, and the Refit framework handles making the call to the service and deserializing the return.
 
 In our case, the interface will look like this:
 
@@ -154,7 +154,8 @@ We can use the Akavache method *GetAndFetchLatest* to immediately return our cac
 #### ModernHttpClient ####
 > Install-Package ModernHttpClient
 
-Although we'd like to always get our data from the cache, we will of course still need to call the remote service at some point. On the Xamarin stack, we run into an issue though. By default, Mono (and therefore Xamarin) uses the Mono networking stack. This works, but Apple and Google have spent a lot of time optimizing the networking stack on their respective platforms, and when we use HttpClient we're bypassing those optimazations completely. We can fix this by adding [ModernHttpClient](https://github.com/paulcbetts/ModernHttpClient)
+Although we'd like to always get our data from the cache, we will of course still need to call the remote service at some point. On the Xamarin stack, we run into an issue though. By default, Mono (and therefore Xamarin) uses the Mono networking stack. This works, but Apple and Google have spent a lot of time optimizing the networking stack on their respective platforms, and when we use HttpClient we're bypassing those optimazations completely. We can fix this by adding [ModernHttpClient](https://github.com/
+/ModernHttpClient)
 
 >This library brings the latest platform-specific networking libraries to Xamarin applications via a custom HttpClient handler. Write your app using System.Net.Http, but drop this library in and it will go drastically faster.
 
@@ -174,7 +175,7 @@ By passing *NativeMessageHandler* into the constructor of HttpClient, we will au
 
 From the user's perspective, not every network request is equal. Requests that are initiated from a user action should have a higher priority than requests that the app decides to kick off. Remember that our goal is to make the user **feel** like the app is responding quickly.
 
-[Fusillade](https://github.com/paulcbetts/Fusillade) is another Nuget package that we're going to use to provide the following features.
+[Fusillade](https://github.com/anaisbetts/Fusillade) is another Nuget package that we're going to use to provide the following features.
 
 > - Auto-deduplication of requests
 > - Request Limiting
@@ -333,7 +334,7 @@ Thanks to Michael Wolfenden ([Github](https://github.com/michael-wolfenden/)) fo
 
 Thanks to [Simon Cropp](https://twitter.com/SimonCropp) ([Github](https://github.com/SimonCropp)) for [Fody](https://github.com/Fody/) and the [AsyncErrorHandler](https://github.com/Fody/AsyncErrorHandler)
 
-Many, many thanks to [Ani Betts](https://twitter.com/anaisbetts) ([Blog](http://log.paulbetts.org/), [Github](https://github.com/paulcbetts)) for her tremendous contributions to the Xamarin open source community, including [Refit](https://github.com/paulcbetts/refit), [Akavache](https://github.com/akavache/Akavache), [Fusillade](https://github.com/anaisbetts/Fusillade), and [ModernHttpClient](https://github.com/anaisbetts/ModernHttpClient).
+Many, many thanks to [Ani Betts](https://twitter.com/anaisbetts) ([Blog](https://blog.anaisbetts.org/), [Github](https://github.com/anaisbetts)) for her tremendous contributions to the Xamarin open source community, including [Refit](https://github.com/anaisbetts/refit), [Akavache](https://github.com/akavache/Akavache), [Fusillade](https://github.com/anaisbetts/Fusillade), and [ModernHttpClient](https://github.com/anaisbetts/ModernHttpClient).
 
 
 ### Source Code ###
