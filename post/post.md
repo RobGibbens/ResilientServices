@@ -92,7 +92,7 @@ Let's address those goals one at a time, and see how we can improve the state of
 #### Refit ####
 > Install-Package Refit
 
-The first thing that we're going to need is a way to access our services. We **could** use HttpClient + Json.net as we did in the previous example. We can make this simpler though. Again, a secondary goal is to reuse existing libraries.  The first one that we're going to pull in is [Refit](https://github.com/anaisbetts/refit). Refit allows us to define an interface that describes the API that we're calling, and the Refit framework handles making the call to the service and deserializing the return.
+The first thing that we're going to need is a way to access our services. We **could** use HttpClient + Json.net as we did in the previous example. We can make this simpler though. Again, a secondary goal is to reuse existing libraries.  The first one that we're going to pull in is [Refit](https://github.com/reactiveui/refit). Refit allows us to define an interface that describes the API that we're calling, and the Refit framework handles making the call to the service and deserializing the return.
 
 In our case, the interface will look like this:
 
