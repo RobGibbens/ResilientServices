@@ -287,9 +287,7 @@ We've already seen how Akavache allows us to continue working while offline by c
 In a perfect world, our code would work correctly all the time, every time. It's not a perfect world. Networks go down. Services throw errors. Code crashes. Some of these errors are permanent, but a large number are transient errors. Cell networks are notoriously flaky, and APIs have intermittent errors for a wide range of reasons.
 
 #### Polly ####
-> Install-Package Polly -Version 2.2.0
-
-<i><small>As of now, the async support in Polly is not available in the PCL assembly. There is a Pull Request pending, but for now you can build it from [my fork](https://github.com/RobGibbens/Polly).</small></i>
+> Install-Package Polly
 
 [Polly](https://github.com/michael-wolfenden/Polly) is one of the most useful libraries I've used in a while. From the website:
 
