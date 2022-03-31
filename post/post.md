@@ -283,7 +283,7 @@ return conferences;
 #### Akavache ####
 We've already seen how Akavache allows us to continue working while offline by caching the results of the requests locally. By combining Akavache and Fusillade's speculative calls, we can proactively cache as much data as possible while connected.  If the network is disconnected, the app will continue to function in a read only manner.
 
-### Handle error s###
+### Handle errors ###
 In a perfect world, our code would work correctly all the time, every time. It's not a perfect world. Networks go down. Services throw errors. Code crashes. Some of these errors are permanent, but a large number are transient errors. Cell networks are notoriously flaky, and APIs have intermittent errors for a wide range of reasons.
 
 #### Polly ####
