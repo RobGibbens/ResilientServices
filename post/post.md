@@ -2,11 +2,11 @@
 
 For most of our computing history, our machines and our applications sat on a desk and never moved. We could count on a constant supply of power, resources, and network access. Developers didn't spend a lot of time planning for interruptions or failures with those resources. It was even common to have applications that worked completely locally, where we never had to think about the network.
 
-###We live in a mobile world###
+### We live in a mobile world ###
 
 We take our devices with us everywhere. We have them at home, at work, and on vacation. They are with us whether we have gigabit wifi or when we are on 4g cell connections. They need to work when we are traveling through tunnels, on trains, in cars, flying at 30,000 feet, and when we have no network connection at all. As developers, we have to not only expect these requirements, we need to plan for them in the initial design and architecture of our mobile apps.
 
-###Current approach###
+### Current approach ###
 
 When we first start writing our Xamarin apps, we probably take the easiest approach in writing our networking code. Maybe we just use Microsoft's HttpClient library to make a call, and then Json.net to deserialize the resulting json. Maybe we go a step further and include some additional libraries as well. You can see this approach in my previous post [End to End Mvvm with Xamarin](http://arteksoftware.com/end-to-end-mvvm-with-xamarin/) where I show a simple implementation of a service client.
 
@@ -69,7 +69,7 @@ namespace DtoToVM.Services
 
 This code works just fine, but it does not take any network failures into account. If the network was down, or the service was not responding, or we got any type of exception then the entire application will terminate. Obviously this is suboptimal.
 
-###Goals###
+### Goals ###
 
 Our goals for our apps should include, but not be limited to, the following:
 
@@ -87,9 +87,9 @@ Secondary goals include:
 Let's address those goals one at a time, and see how we can improve the state of our networked app. As usual, I'll be using a conference app based on [TekConf](http://tekconf.com).
 
 
-###Easy access to restful services###
+### Easy access to restful services ###
 
-####Refit####
+#### Refit ####
 > Install-Package Refit
 
 The first thing that we're going to need is a way to access our services. We **could** use HttpClient + Json.net as we did in the previous example. We can make this simpler though. Again, a secondary goal is to reuse existing libraries.  The first one that we're going to pull in is [Refit](https://github.com/paulcbetts/refit). Refit allows us to define an interface that describes the API that we're calling, and the Refit framework handles making the call to the service and deserializing the return.
@@ -120,9 +120,9 @@ var conferences = await tekconfApi.GetConferences();
 var codemash = await tekconfApi.GetConference("codemash-2016");
 ```
 
-###Fast response for our users###
+### Fast response for our users ###
 
-####Akavache####
+#### Akavache ####
 > Install-Package Akavache
 
 Now that we have an easy way to access the service, we can concentrate on the user experience. The performance of a mobile app, from a user's perspective, is **critical**. It doesn't even necessarily matter if your app **IS** fast, just that the user **THINKS** it's fast.
@@ -151,7 +151,7 @@ public async Task<List<ConferenceDto>> GetConferences()
 
 We can use the Akavache method *GetAndFetchLatest* to immediately return our cached conferences, if there are any. At the same time, we set up a call to our *GetRemoteConferencesAsync* method, which will actually make the call to the remote service if the specified expiration TimeSpan has elapsed.
 
-####ModernHttpClient####
+#### ModernHttpClient ####
 > Install-Package ModernHttpClient
 
 Although we'd like to always get our data from the cache, we will of course still need to call the remote service at some point. On the Xamarin stack, we run into an issue though. By default, Mono (and therefore Xamarin) uses the Mono networking stack. This works, but Apple and Google have spent a lot of time optimizing the networking stack on their respective platforms, and when we use HttpClient we're bypassing those optimazations completely. We can fix this by adding [ModernHttpClient](https://github.com/paulcbetts/ModernHttpClient)
@@ -169,7 +169,7 @@ return RestService.For<ITekConfApi>(client);
 
 By passing *NativeMessageHandler* into the constructor of HttpClient, we will automatically use the appropriate stack on each platform.
 
-####Fusillade####
+#### Fusillade ####
 > Install-Package Fusillade
 
 From the user's perspective, not every network request is equal. Requests that are initiated from a user action should have a higher priority than requests that the app decides to kick off. Remember that our goal is to make the user **feel** like the app is responding quickly.
@@ -256,11 +256,11 @@ foreach (var slug in conferences.Select(x => x.Slug))
 }
 ```
 
-###Work offline##
+### Work offline ##
 
 Unlike desktop applications, our mobile apps are expected to have some functionality while disconnected from the network. The worst thing that we could do is to crash when we try to make a network request. The best thing that we could do is to continue working so that the user didn't even notice that the network was down.
 
-####Connectivity####
+#### Connectivity ####
 > Install-Package Xam.Plugin.Connectivity
 
 If we want to make sure that we don't cause an exception by making a request when the network is disconnected, then we need a way of checking the status of the connection. Each platform has its own way of performing this check, but we want to use this in a cross platform way in our PCL classes.
@@ -279,13 +279,13 @@ if (CrossConnectivity.Current.IsConnected)
 return conferences;
 ```
 
-####Akavache####
+#### Akavache ####
 We've already seen how Akavache allows us to continue working while offline by caching the results of the requests locally. By combining Akavache and Fusillade's speculative calls, we can proactively cache as much data as possible while connected.  If the network is disconnected, the app will continue to function in a read only manner.
 
-###Handle errors###
+### Handle error s###
 In a perfect world, our code would work correctly all the time, every time. It's not a perfect world. Networks go down. Services throw errors. Code crashes. Some of these errors are permanent, but a large number are transient errors. Cell networks are notoriously flaky, and APIs have intermittent errors for a wide range of reasons.
 
-####Polly####
+#### Polly ####
 > Install-Package Polly -Version 2.2.0
 
 <i><small>As of now, the async support in Polly is not available in the PCL assembly. There is a Pull Request pending, but for now you can build it from [my fork](https://github.com/RobGibbens/Polly).</small></i>
@@ -307,7 +307,7 @@ conferences = await Policy
       .ExecuteAsync(async () => await getConferencesTask);
 ```
 
-####AsyncErrorHandler####
+#### AsyncErrorHandler ####
 > Install-Package AsyncErrorHandler.Fody
 
 Even with all the caching, retrying, and planning that we've put into the code, it will still fail at some point. We still want to make sure that when that happens, we handle it in a graceful manner. 
@@ -317,13 +317,13 @@ In our mobile apps, it's imperative that we use async/await as much as possible 
 Adding [AsyncErrorHandler](https://github.com/Fody/AsyncErrorHandler) allows us to handle these exceptions in a global way, to ensure that they don't terminate our app.
 
 
-###More###
+### More ###
 
 We could go even further in architecting our code to handle our network requests. We would want to register each call as a [BackgroundTask](https://developer.xamarin.com/guides/ios/application_fundamentals/backgrounding/part_3_ios_backgrounding_techniques/ios_backgrounding_with_tasks/) in iOS, or as a [Service](http://developer.xamarin.com/guides/android/application_fundamentals/services/) in Android to give each request the opportunity to complete even when the app gets sent to the background. We could introduce a queue, or some data syncronization component to allow us to update data while offline and sync with the server when a connection is reestablished. How far you want to go is up to you.
 
 Fundamentally, mobile development introduces some issues that we haven't needed to really worry about in desktop development before. A mobile app that doesn't use remote services is an island with limited usefulness.  A mobile app that uses remote services, but crashes when trying to access those services is useless.  By using some really great libraries, we can ensure that our apps give our users the very best experience.
 
-###Thanks###
+### Thanks ###
 
 In order to get any of this to work, I leveraged the hard work of other developers. Standing on the shoulders of giants.
 
@@ -333,10 +333,10 @@ Thanks to Michael Wolfenden ([Github](https://github.com/michael-wolfenden/)) fo
 
 Thanks to [Simon Cropp](https://twitter.com/SimonCropp) ([Github](https://github.com/SimonCropp)) for [Fody](https://github.com/Fody/) and the [AsyncErrorHandler](https://github.com/Fody/AsyncErrorHandler)
 
-Many, many thanks to [Paul Betts](https://twitter.com/paulcbetts) ([Blog](http://log.paulbetts.org/), [Github](https://github.com/paulcbetts)) for his tremendous contributions to the Xamarin open source community, including [Refit](https://github.com/paulcbetts/refit), [Akavache](https://github.com/akavache/Akavache), [Fusillade](https://github.com/paulcbetts/Fusillade), and [ModernHttpClient](https://github.com/paulcbetts/ModernHttpClient).
+Many, many thanks to [Ani Betts](https://twitter.com/anaisbetts) ([Blog](http://log.paulbetts.org/), [Github](https://github.com/paulcbetts)) for her tremendous contributions to the Xamarin open source community, including [Refit](https://github.com/paulcbetts/refit), [Akavache](https://github.com/akavache/Akavache), [Fusillade](https://github.com/anaisbetts/Fusillade), and [ModernHttpClient](https://github.com/anaisbetts/ModernHttpClient).
 
 
-###Source Code###
+### Source Code ###
 
 You can find a complete sample on [my Github repo](https://github.com/RobGibbens/ResilientServices).
 
